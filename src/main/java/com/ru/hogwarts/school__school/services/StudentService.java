@@ -1,5 +1,4 @@
 package com.ru.hogwarts.school__school.services;
-
 import com.ru.hogwarts.school__school.interfaces.StudentsWithBigId;
 import com.ru.hogwarts.school__school.models.Avatar;
 import com.ru.hogwarts.school__school.repositories.AvatarRepository;
@@ -10,33 +9,25 @@ import com.ru.hogwarts.school__school.models.Student;
 import com.ru.hogwarts.school__school.repositories.StudentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
-
 @Service
 @Transactional
 public class StudentService {
     @Value(value = "${avatar.dir.path}")
     private String avatarDir;
     File directory = new File("avatar");
-
-
    private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
-
     public StudentService(StudentRepository studentRepository, AvatarRepository avatarRepository) {
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
     }
-
-
     public Student findStudent(long id) {
         return studentRepository.findById(id).get() ;
     }
@@ -53,7 +44,6 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-
     public Collection<Student> findByAge(int age) {
         return studentRepository.findAllByAge(age);
     }
@@ -64,8 +54,6 @@ public class StudentService {
     public Avatar findAvatar(long studentId) {
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
-
-
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
         Student student = findStudent(studentId);
         Path filePath = Path.of(avatarDir, studentId + "." + getExtension(Objects.requireNonNull(file.getOriginalFilename())));
