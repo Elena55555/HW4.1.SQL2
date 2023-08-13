@@ -7,6 +7,8 @@ import com.ru.hogwarts.school__school.models.Avatar;
 
 import com.ru.hogwarts.school__school.repositories.AvatarRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +52,7 @@ public class StudentService {
    private final StudentRepository studentRepository;
 
     private final AvatarRepository avatarRepository;
+    Logger logger= LoggerFactory.getLogger(StudentService.class );
 
 
     public StudentService(StudentRepository studentRepository, AvatarRepository avatarRepository) {
@@ -61,31 +64,43 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
+        logger.debug("Find student {} by id",  studentRepository.findById(id).get());
+
         return studentRepository.findById(id).get() ;
     }
 
     public Student editStudent(Student student){
+        logger.debug("Edit student {} ",  studentRepository.save(student));
+
         return studentRepository.save(student);
     }
 
     public Student addStudent(Student student) {
+        logger.debug("Add student {} ",  studentRepository.save(student));
+
         return studentRepository.save(student);
     }
 
     public void deleteStudent (long id) {
+        logger.debug("Delete student {} ");
+
         studentRepository.deleteById(id);
     }
 
     public Collection<Student> getAllStudents(){
+        logger.debug("Get All Students {} ",  studentRepository.findAll());
+
         return studentRepository.findAll();
     }
 
 
     public Collection<Student> findByAge(int age) {
+        logger.debug(" Find student By Age {} ",  studentRepository.findAllByAge(age));
         return studentRepository.findAllByAge(age);
     }
 
     public Collection<Student> getAllStudentsByAgeBetween(int min, int max) {
+        logger.debug(" Get All Students By Age Between {} ",  studentRepository.findStudentsByAgeBetween(min, max));
 
         return studentRepository.findStudentsByAgeBetween(min, max);
 
@@ -93,10 +108,13 @@ public class StudentService {
 
 
     public Avatar findAvatar(long studentId) {
+        logger.debug(" Find Avatar {} ",  avatarRepository.findByStudentId(studentId).orElseThrow());
+
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
 
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.debug("upload Avatar {}  ");
 
         Student student = findStudent(studentId);
 
@@ -137,24 +155,34 @@ public class StudentService {
     }
 
     private String getExtension(String fileName) {
+        logger.debug(" Get Extension {} ", fileName.substring(fileName.lastIndexOf(".") + 1));
+
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public Integer getStudentsByNumber(){
+        logger.debug(" Get Students ByNumber {} ", studentRepository.getStudentsByNumber());
+
         return studentRepository.getStudentsByNumber();
     }
 
     public Integer getAvgAgeStudents(){
+        logger.debug(" Get Avg Age Students {} ", studentRepository.getAvgAgeStudents());
+
         return studentRepository.getAvgAgeStudents();
     }
 
     public List<StudentsWithBigId> getStudentsWithBigId(){
+        logger.debug(" List <StudentsWithBigId> {} ", studentRepository.getLast5StudentsWithBigId());
+
         return studentRepository.getLast5StudentsWithBigId();
     }
 
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+        logger.debug(" getAllAvatars{} ", avatarRepository.findAll(pageRequest).getContent());
+
 
         return avatarRepository.findAll(pageRequest).getContent();//
 
