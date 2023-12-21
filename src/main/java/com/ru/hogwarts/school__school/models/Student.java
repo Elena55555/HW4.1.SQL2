@@ -43,7 +43,7 @@ public class Student {
 
         this.name = name;
 
-        this.age = age;
+        this.age =  age;
 
         this.faculty = faculty;
 
@@ -70,7 +70,7 @@ public class Student {
     }
 
     public int getAge() {
-        return age;
+        return  age;
     }
 
     public void setAge(int age) {
@@ -122,4 +122,6 @@ public class Student {
                 '}';
 
     }
+
+
 }

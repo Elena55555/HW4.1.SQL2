@@ -15,7 +15,7 @@ public class FlowOutOfOrderService {
 
     private void work() {
         List <String> students  = Arrays.asList("Рон", "Гермиона","Малфой","Падма","Гарри","Алланис");
-        print (students);
+        print (students );
         print (students);
         new  Thread (()-> {
             try{
@@ -42,8 +42,9 @@ public class FlowOutOfOrderService {
         System.out.println(student2);
 
     }
+    // Чтобы нарушить последовательность выполнения нам необходимо
     int index;
-    private void print(List<String> students) {
+    private synchronized void print(List<String> students) {
         System.out.println(students.get(index++));
     }
 
