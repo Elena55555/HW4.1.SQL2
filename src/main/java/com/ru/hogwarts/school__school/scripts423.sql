@@ -1,0 +1,2 @@
+SELECT student.name, student.age,avatar.student_id FROM student RIGHT JOIN avatar on student.id = avatar.student_id;
+select student.name, student.age, student.faculty_id From student right join faculty on  student.faculty_id = faculty.id ;
