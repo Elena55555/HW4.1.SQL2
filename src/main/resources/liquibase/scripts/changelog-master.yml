@@ -1,0 +1,10 @@
+
+dataBase ChangeLog:
+
+  -include:
+
+    file: liquibase/scripts/student.sql
+
+    -include:
+
+      file: liquibase/scripts/faculty.sql
